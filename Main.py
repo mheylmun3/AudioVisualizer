@@ -6,7 +6,7 @@ import platform
 
 p = pyaudio.PyAudio()
 
-chunk = 1024
+chunk = 4096
 audio_format = pyaudio.paInt16
 audio_rate = 48000
 
@@ -96,16 +96,16 @@ index, num_channels = find_input_device()
 if index is None:
     exit()
 
-stream = p.open(format=audio_format,
-                channels=num_channels,
-                rate=audio_rate,
-                input=True,
-                input_device_index=index,
-                frames_per_buffer=chunk)
+stream = p.open(format = audio_format,
+                channels = num_channels,
+                rate = audio_rate,
+                input = True,
+                input_device_index = index,
+                frames_per_buffer = chunk)
 
 fig, ax = plt.subplots()
 x = np.arange(0, chunk)
-line, = ax.plot(x, np.random.rand(chunk), lw=2)
+line, = ax.plot(x, np.random.rand(chunk), lw = 2)
 ax.set_ylim(-32768, 32767)
 ax.set_xlim(0, chunk)
 ax.set_title("Live Stereo Mix Waveform")
@@ -136,7 +136,6 @@ def update(frame):
 animate = animation.FuncAnimation(fig, update, interval=30, blit=True)
 plt.show()
 
-# Clean up
 stream.stop_stream()
 stream.close()
 p.terminate()
